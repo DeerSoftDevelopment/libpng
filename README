@@ -1,3 +1,10 @@
+Fork for PA
+The following changes where made:
+- Change CMakeLists so that Windows build is done with MT instead of MD
+- Add ZLIB Path for Windows to CMakeLists
+
+
+
 README for libpng version 1.6.40.git
 ====================================
 
