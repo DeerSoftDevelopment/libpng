@@ -42,6 +42,17 @@ set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_REVISION})
 set(PNGLIB_SHARED_SOVERSION ${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_SHARED_VERSION ${PNGLIB_SHARED_SOVERSION}.${PNGLIB_REVISION}.${PNGLIB_SUBREVISION})
 
+if(MSVC)
+	set(ZLIB_INCLUDE_DIR "C:\\Users\\DeerSoft\\Documents\\DEV\\contrib\\zlib;C:\\Users\\DeerSoft\\Documents\\DEV\\build\\contrib\\zlib")
+	set(ZLIB_LIBRARY "C:\\Users\\DeerSoft\\Documents\\DEV\\assimp\\build\\lib\\Release\\zlibstatic.lib")
+	    add_compile_options(/MT)
+	set(ZLIB_INCLUDE_DIR "C:\\Users\\DeerSoft\\Documents\\DEV\\contrib\\zlib;C:\\Users\\DeerSoft\\Documents\\DEV\\build\\contrib\\zlib")
+	set(ZLIB_LIBRARY "C:\\Users\\DeerSoft\\Documents\\DEV\\assimp\\build\\lib\\Release\\zlibstatic.lib")
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+endif()
+	
 include(GNUInstallDirs)
 
 # Allow users to specify location of zlib.
@@ -1035,6 +1046,16 @@ if(NOT SKIP_INSTALL_EXPORT AND NOT SKIP_INSTALL_ALL)
   install(EXPORT libpng
           DESTINATION lib/libpng
           FILE lib${PNG_LIB_NAME}.cmake)
+endif()
+
+
+if(MSVC)
+    add_compile_options(/MT)
+	set(ZLIB_INCLUDE_DIR "C:\\Users\\DeerSoft\\Documents\\DEV\\contrib\\zlib;C:\\Users\\DeerSoft\\Documents\\DEV\\build\\contrib\\zlib")
+	set(ZLIB_LIBRARY "C:\\Users\\DeerSoft\\Documents\\DEV\\assimp\\build\\lib\\Release\\zlibstatic.lib")
+	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 endif()
 
 # TODO: Create MSVC import lib for MinGW-compiled shared lib.
