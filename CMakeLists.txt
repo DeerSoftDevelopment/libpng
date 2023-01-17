@@ -44,7 +44,7 @@ set(PNGLIB_SHARED_VERSION ${PNGLIB_SHARED_SOVERSION}.${PNGLIB_REVISION}.${PNGLIB
 
 if(MSVC)
     add_compile_options(/MT)
-	set(ZLIB_INCLUDE_DIR ${CMAKE_SOURCE_DIR}\\contrib\\zlib\\include)
+	set(ZLIB_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}\\contrib\\zlib\\include)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
@@ -52,14 +52,7 @@ endif()
 	
 include(GNUInstallDirs)
 
-# Allow users to specify location of zlib.
-# Useful if zlib is being built alongside this as a sub-project.
-option(PNG_BUILD_ZLIB "Custom zlib Location, else find_package is used" OFF)
-
-if(NOT PNG_BUILD_ZLIB)
-  find_package(ZLIB REQUIRED)
-  include_directories(${ZLIB_INCLUDE_DIRS})
-endif()
+include_directories(${ZLIB_INCLUDE_DIRS})
 
 if(UNIX AND NOT APPLE AND NOT BEOS AND NOT HAIKU AND NOT EMSCRIPTEN)
   find_library(M_LIBRARY m)
@@ -603,7 +596,7 @@ if(PNG_SHARED)
     set_target_properties(png PROPERTIES PREFIX "lib")
     set_target_properties(png PROPERTIES IMPORT_PREFIX "lib")
   endif()
-  target_link_libraries(png ${ZLIB_LIBRARIES} ${M_LIBRARY})
+  target_link_libraries(png ${M_LIBRARY})
 
   if(UNIX AND AWK)
     if(HAVE_LD_VERSION_SCRIPT)
@@ -638,7 +631,7 @@ if(PNG_STATIC)
     # MSVC does not append 'lib'. Do it here, to have consistent name.
     set_target_properties(png_static PROPERTIES PREFIX "lib")
   endif()
-  target_link_libraries(png_static ${ZLIB_LIBRARIES} ${M_LIBRARY})
+  target_link_libraries(png_static ${M_LIBRARY})
 endif()
 
 if(PNG_FRAMEWORK)
@@ -655,7 +648,7 @@ if(PNG_FRAMEWORK)
                         XCODE_ATTRIBUTE_INSTALL_PATH "@rpath"
                         PUBLIC_HEADER "${libpng_public_hdrs}"
                         OUTPUT_NAME png)
-  target_link_libraries(png_framework ${ZLIB_LIBRARIES} ${M_LIBRARY})
+  target_link_libraries(png_framework ${M_LIBRARY})
 endif()
 
 if(NOT PNG_LIB_TARGETS)
@@ -864,7 +857,7 @@ if(PNG_SHARED AND PNG_EXECUTABLES)
   set(PNG_BIN_TARGETS pngfix)
 
   add_executable(png-fix-itxt ${png_fix_itxt_sources})
-  target_link_libraries(png-fix-itxt ${ZLIB_LIBRARIES} ${M_LIBRARY})
+  target_link_libraries(png-fix-itxt ${M_LIBRARY})
   list(APPEND PNG_BIN_TARGETS png-fix-itxt)
 endif()
 
