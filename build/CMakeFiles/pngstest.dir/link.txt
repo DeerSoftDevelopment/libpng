@@ -1,0 +1,1 @@
+/usr/bin/distcc -fPIC -rdynamic CMakeFiles/pngstest.dir/contrib/libtests/pngstest.c.o -o pngstest  -Wl,-rpath,/home/mark/Dokumente/Arbeit/libharu/deps/libpng/build libpng16.so.16.40.git -lm 
