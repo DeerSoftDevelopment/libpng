@@ -48,9 +48,11 @@ if(MSVC)
 	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
 	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+else()
 endif()
 	
 include(GNUInstallDirs)
+find_package(ZLIB REQUIRED)
 
 include_directories(${ZLIB_INCLUDE_DIRS})
 
