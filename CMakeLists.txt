@@ -41,19 +41,21 @@ set(PNGLIB_NAME libpng${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_VERSION ${PNGLIB_MAJOR}.${PNGLIB_MINOR}.${PNGLIB_REVISION})
 set(PNGLIB_SHARED_SOVERSION ${PNGLIB_MAJOR}${PNGLIB_MINOR})
 set(PNGLIB_SHARED_VERSION ${PNGLIB_SHARED_SOVERSION}.${PNGLIB_REVISION}.${PNGLIB_SUBREVISION})
+option(USE_MT "Should libpng be built with MT instead of MD?" OFF)
 
 if(MSVC)
-    add_compile_options(/MT)
+	if(${USE_MT})
+		add_compile_options(/MT)
+	else()
+	    add_compile_options(/MD)
+	endif()
+	
 	set(ZLIB_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}\\contrib\\zlib\\include)
-	set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-	set(CMAKE_CXX_FLAGS_RELEASE "/MT")
-	set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
 else()
     find_package(ZLIB REQUIRED)
 endif()
 	
 include(GNUInstallDirs)
-find_package(ZLIB REQUIRED)
 
 include_directories(${ZLIB_INCLUDE_DIRS})
 
